@@ -1,0 +1,36 @@
+plugins{
+    id 'java'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group = 'top.redstarmc'
+
+    version = '0.0.0'
+
+    repositories {
+        mavenCentral()  //Maven 存储库
+        maven { url 'https://jitpack.io' }  //引入JitPack 仓库，它允许从 GitHub 上直接拉取依赖。
+    }
+
+    dependencies {
+
+
+    }
+
+
+    /*
+        编码固定 UTF-8
+     */
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    tasks.withType(Javadoc) {
+        options.encoding = "UTF-8"
+    }
+
+
+
+}

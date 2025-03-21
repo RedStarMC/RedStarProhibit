@@ -2,12 +2,14 @@ plugins{
     id 'java'
 }
 
+def version = "0.0.1"
+
 allprojects {
     apply plugin: 'java'
 
     group = 'top.redstarmc'
 
-    version = '0.0.0'
+    version = "$version"
 
     repositories {
         mavenCentral()  //Maven 存储库
@@ -15,22 +17,58 @@ allprojects {
     }
 
     dependencies {
-
-
+        compileOnly 'org.jetbrains:annotations:23.0.0'
+        compileOnly 'org.yaml:snakeyaml:2.0'
+        implementation 'com.h2database:h2:2.2.220'
+        implementation ('cc.carm.lib:easysql-hikaricp:0.4.7'){
+            exclude group: 'org.slf4j', module: 'slf4j-api'
+        }
     }
-
 
     /*
         编码固定 UTF-8
      */
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
     }
 
-    tasks.withType(Javadoc) {
-        options.encoding = "UTF-8"
+    tasks.withType(Javadoc).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+        }
     }
 
 
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    }
 
+    processResources {
+        def props = [version: version]
+        inputs.properties props
+        filteringCharset 'UTF-8'
+        filesMatching(['velocity-plugin.json']) {
+            expand props
+        }
+    }
+}
+
+
+// 生成 jar
+tasks.register('spawnJar', Jar) {
+    archiveBaseName.set("RedStarProhibit")
+    archiveVersion.set(version)
+    duplicatesStrategy = 'exclude'
+
+    from {
+        subprojects.collect { it.sourceSets.main.output }
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+tasks.named('build') {
+    finalizedBy('spawnJar')
 }

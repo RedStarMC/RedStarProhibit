@@ -1,0 +1,16 @@
+dependencies {
+    implementation project(":common")
+    compileOnly "com.velocitypowered:velocity-api:3.4.0-SNAPSHOT"
+}
+
+repositories {
+    maven { url 'https://repo.codemc.io/repository/maven-releases/' }
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}

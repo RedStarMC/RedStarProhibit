@@ -1,0 +1,11 @@
+{
+  "id": "red_star_prohibit",
+  "name": "RedStarProhibit",
+  "version": "${version}",
+  "description": "RedStarProhibit",
+  "authors": [
+    "RedStarMC", "pingguomc"
+  ],
+  "dependencies": [],
+  "main": "top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC"
+}

@@ -2,7 +2,7 @@ plugins{
     id 'java'
 }
 
-def version = "0.0.1"
+def version = "0.0.2"
 
 allprojects {
     apply plugin: 'java'
@@ -47,7 +47,7 @@ allprojects {
         def props = [version: version]
         inputs.properties props
         filteringCharset 'UTF-8'
-        filesMatching(['velocity-plugin.json']) {
+        filesMatching(['velocity-plugin.json','Version']) {
             expand props
         }
     }

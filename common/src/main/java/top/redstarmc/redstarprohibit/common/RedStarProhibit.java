@@ -18,6 +18,8 @@ public interface RedStarProhibit {
 
     public default void onEnable(){
         setInstance(this);
+        loadManagers();
+        loadDateBase();
     }
     public default void onDisable(){
 

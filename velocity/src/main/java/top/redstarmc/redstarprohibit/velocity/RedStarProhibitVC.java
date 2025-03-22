@@ -10,6 +10,8 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
 import top.redstarmc.redstarprohibit.common.RedStarProhibit;
+import top.redstarmc.redstarprohibit.velocity.manager.VCConfigManager;
+import top.redstarmc.redstarprohibit.velocity.manager.VCH2Manager;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -47,15 +49,15 @@ public class RedStarProhibitVC implements RedStarProhibit {
 
     @Override
     public void loadManagers() {
-
+        new VCConfigManager().init();
     }
 
     @Override
     public void loadDateBase() {
-
+        new VCH2Manager().init();
     }
 
-    public RedStarProhibitVC getInstance(){
+    public static RedStarProhibitVC getInstance(){
         return RedStarProhibit.getInstance();
     }
 

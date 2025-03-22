@@ -117,7 +117,7 @@ public abstract class ConfigManager {
         return config;
     }
 
-    public static ConfigManager getConfwgManager() {
+    public static ConfigManager getConfigManager() {
         return configManager;
     }
 

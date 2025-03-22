@@ -2,7 +2,7 @@ plugins{
     id 'java'
 }
 
-def version = "0.0.2"
+def version = "0.0.3"
 
 allprojects {
     apply plugin: 'java'

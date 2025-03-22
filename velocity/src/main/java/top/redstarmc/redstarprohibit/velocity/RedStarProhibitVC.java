@@ -10,8 +10,10 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
 import top.redstarmc.redstarprohibit.common.RedStarProhibit;
+import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCConfigManager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCH2Manager;
+import top.redstarmc.redstarprohibit.velocity.manager.VCServerManager;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -39,6 +41,9 @@ public class RedStarProhibitVC implements RedStarProhibit {
     public void onProxyInitialization(ProxyInitializeEvent event){
         RedStarProhibit.super.onEnable();
         logger.info("加载成功");
+        ServerManager.getManager().info("测试ServerManager发送info");
+        ServerManager.getManager().warn("测试ServerManager发送warn");
+        ServerManager.getManager().error("测试ServerManager发送error");
     }
 
     @Subscribe
@@ -50,6 +55,7 @@ public class RedStarProhibitVC implements RedStarProhibit {
     @Override
     public void loadManagers() {
         new VCConfigManager().init();
+        new VCServerManager();
     }
 
     @Override

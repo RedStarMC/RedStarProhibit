@@ -5,7 +5,9 @@ import cc.carm.lib.easysql.api.SQLManager;
 public abstract class H2Manager {
     private SQLManager sqlManager;
     public void init(){
-        System.out.println("数据库初始化");
+        String diver = ConfigManager.getConfigManager().getString("DateBase.Driver");
+        String url = ConfigManager.getConfigManager().getString("DateBase.Url");
+
     }
 
 }

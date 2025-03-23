@@ -1,5 +1,7 @@
 package top.redstarmc.redstarprohibit.common;
 
+import top.redstarmc.redstarprohibit.common.manager.ServerManager;
+
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 

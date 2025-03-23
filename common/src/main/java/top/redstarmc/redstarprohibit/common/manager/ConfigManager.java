@@ -3,8 +3,8 @@ package top.redstarmc.redstarprohibit.common.manager;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import top.redstarmc.redstarprohibit.common.RedStarProhibit;
-import top.redstarmc.redstarprohibit.common.api.MapBuilder;
-import top.redstarmc.redstarprohibit.common.api.Stream;
+import top.redstarmc.redstarprohibit.common.utils.MapBuilder;
+import top.redstarmc.redstarprohibit.common.utils.Stream;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public abstract class ConfigManager {
     public static final Map<String, Object> default_config = MapBuilder.of(String.class,Object.class)
             .set("Debug", false)
             .set("PluginPrefix", "§b§l[RedStarProhibit]")
-            .set("DateBase.type","null")
+            .set("DateBase.mode","Embedded")
             .set("DateBase.Driver","org.h2.Driver")
             .set("DateBase.Url","jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL;")
             .set("DateBase.username","root")

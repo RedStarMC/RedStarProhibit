@@ -37,8 +37,7 @@ public class VCMessagesSender extends MessagesSender {
         for (String s : msg) {
             if (s == null) continue;
             if (sender instanceof ConsoleCommandSource) {
-               // System.out.println(ColoredConsole.toANSI(s + "§r"));
-                System.out.println(s + "§r");
+                System.out.println(ColoredConsole.toANSI(s + "§r"));
             } else {
                 sender.sendMessage(Component.text(s + "§r"));
             }

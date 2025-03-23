@@ -1,11 +1,17 @@
 package top.redstarmc.redstarprohibit.velocity.manager;
 
+import com.velocitypowered.api.scheduler.ScheduledTask;
+import com.velocitypowered.api.scheduler.Scheduler;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import top.redstarmc.redstarprohibit.common.RedStarProhibit;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
 import top.redstarmc.redstarprohibit.common.api.ServerType;
 import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.api.VCMessagesSender;
+
+import java.util.concurrent.TimeUnit;
 
 public class VCServerManager extends ServerManager {
 
@@ -29,12 +35,44 @@ public class VCServerManager extends ServerManager {
      */
     @Override
     public void broadcast(String... messages) {
-
+        for (String message : messages) {
+            if (message == null) continue;
+            RedStarProhibitVC.getInstance().getServer().getAllPlayers().forEach(p -> {
+                p.sendMessage(Component.text(message));
+            });
+            getConsoleSender().sendMessage(message);
+        }
     }
 
     @Override
     public @NotNull MessagesSender getConsoleSender() {
         return CONSOLE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TASK> @NotNull TASK runTaskTimer(Runnable r, long delaySeconds, long periodSeconds) {
+        Scheduler.TaskBuilder builder = RedStarProhibitVC.getInstance().getServer().getScheduler().buildTask(RedStarProhibitVC.getInstance(), r);
+        if (delaySeconds > 0) {
+            builder.delay(delaySeconds, TimeUnit.SECONDS);
+        }
+        if (periodSeconds > 0) {
+            builder.repeat(periodSeconds, TimeUnit.SECONDS);
+        }
+        return (TASK) builder.schedule();
+    }
+
+    @Override
+    public <TASK> @NotNull TASK runTaskTimerAsync(Runnable r, long delaySeconds, long periodSeconds) {
+        return runTaskTimer(r, delaySeconds, periodSeconds);
+        //代理端无需异步
+    }
+
+    @Override
+    public void cancelTasks() {
+        for (ScheduledTask task : RedStarProhibitVC.getInstance().getServer().getScheduler().tasksByPlugin(RedStarProhibitVC.getInstance())) {
+            task.cancel();
+        }
     }
 
 }

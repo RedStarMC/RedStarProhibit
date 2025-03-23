@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.api;
+package top.redstarmc.redstarprohibit.common.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -6,7 +6,7 @@ import top.redstarmc.redstarprohibit.common.api.ServerType;
 
 /**
  * <h1>服务器管理器</h1>
- * <h2>主要作用为向 玩家 或 控制台 输出信息</h2>
+ * <h2>主要功能有： 获得服务器相关内容，输出日志，向玩家输出文本，以及线程操作</h2>
  */
 public abstract class ServerManager {
     public static String INFO_PREFIX = "§b§l[PluginPrefix]§r ";
@@ -51,7 +51,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage("§a[INFO] " + INFO_PREFIX + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] " + message + "§r");
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage("§e[WARN] " + INFO_PREFIX + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§e[WARN] " + message + "§r");
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage("§c[ERROR] " + INFO_PREFIX + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§c[ERROR] " + message + "§r");
         }
     }
 
@@ -88,7 +88,7 @@ public abstract class ServerManager {
         if (ConfigManager.getConfigManager().isDebugMode()) {
             for (String message : messages) {
                 if (message == null) continue;
-                getConsoleSender().sendMessage("§6[DEBUG] " + INFO_PREFIX + message + "§r");
+                getConsoleSender().sendMessage(INFO_PREFIX + "§6[DEBUG] " + message + "§r");
             }
         }
     }
@@ -114,6 +114,42 @@ public abstract class ServerManager {
             debug(e);
         }
     }
+
+    /*
+        线程相关方法
+     */
+    @NotNull
+    public <TASK> TASK runTask(Runnable r) {
+        return runTaskLater(r, 0L);
+        //
+    }
+
+    @NotNull
+    public <TASK> TASK runTaskLater(Runnable r, long delaySeconds) {
+        return runTaskTimer(r, delaySeconds, 0L);
+        //
+    }
+
+    @NotNull
+    public abstract <TASK> TASK runTaskTimer(Runnable r, long delaySeconds, long periodSeconds);
+
+    @NotNull
+    public final <TASK> TASK runTaskAsync(Runnable r) {
+        return runTaskLaterAsync(r, 0L);
+        //
+    }
+
+    @NotNull
+    public final <TASK> TASK runTaskLaterAsync(Runnable r, long delaySeconds) {
+        return runTaskTimerAsync(r, delaySeconds, 0L);
+        //
+    }
+
+    @NotNull
+    public abstract <TASK> TASK runTaskTimerAsync(Runnable r, long delaySeconds, long periodSeconds);
+
+    public abstract void cancelTasks();
+
     /*
         一般方法区
      */

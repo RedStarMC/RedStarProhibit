@@ -3,6 +3,7 @@ package top.redstarmc.redstarprohibit.common.manager;
 import org.jetbrains.annotations.NotNull;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
 import top.redstarmc.redstarprohibit.common.api.ServerType;
+import top.redstarmc.redstarprohibit.common.api.toStrings;
 
 /**
  * <h1>服务器管理器</h1>
@@ -53,6 +54,16 @@ public abstract class ServerManager {
             if (message == null) continue;
             getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] " + message + "§r");
         }
+    }
+
+    /**
+     * <h2>发送插件格式化信息</h2>
+     * @param messages 字符串
+     * @param objects 传入的格式化内容
+     */
+    public final void info(String messages,Object... objects) {
+        if (messages == null) return;
+        getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] " + toStrings.format(messages,objects) + "§r");
     }
 
     /**

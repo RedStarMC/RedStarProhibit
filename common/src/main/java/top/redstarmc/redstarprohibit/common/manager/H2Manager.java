@@ -5,11 +5,10 @@ import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.hikari.HikariConfig;
 import cc.carm.lib.easysql.hikari.HikariDataSource;
 import cc.carm.lib.easysql.manager.SQLManagerImpl;
+import top.redstarmc.redstarprohibit.common.datebase.CustomDebugHandler;
 import top.redstarmc.redstarprohibit.common.datebase.DateBaseTables;
-import top.redstarmc.redstarprohibit.common.datebase.QueryOperates;
 
 import java.sql.SQLException;
-import java.util.concurrent.CompletableFuture;
 
 public abstract class H2Manager {
 
@@ -30,6 +29,7 @@ public abstract class H2Manager {
             initEmbedded();
         }
 
+        sqlManager.setDebugHandler(new CustomDebugHandler());
         sqlManager.setDebugMode(ConfigManager.getConfigManager().isDebugMode());
 
         try {
@@ -37,21 +37,7 @@ public abstract class H2Manager {
                 ServerManager.getManager().error("[数据库] 连接超时！");
             }
 
-            CompletableFuture<Boolean> result1 = QueryOperates.isTableExists(sqlManager,tablePrefix+"BANS");
-            CompletableFuture<Boolean> result2 = QueryOperates.isTableExists(sqlManager,tablePrefix+"BAN_HISTORY");
-
-            result1.thenAccept(result -> {
-                if (!result) {
-                    DateBaseTables.initializeBANS(sqlManager,tablePrefix);
-                    ServerManager.getManager().debug("[数据库]创建了BANS数据表");
-                }
-            });
-            result2.thenAccept(result -> {
-                if (!result) {
-                    DateBaseTables.initializeBAN_HISTORY(sqlManager,tablePrefix);
-                    ServerManager.getManager().debug("[数据库]创建了BAN_HISTORY数据表");
-                }
-            });
+            DateBaseTables.initialize(sqlManager,tablePrefix);
 
         } catch (SQLException e) {
             ServerManager.getManager().error("[数据库] 连接数据库失败！");

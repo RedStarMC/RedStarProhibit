@@ -16,7 +16,7 @@ public enum DateBaseTables implements SQLTable {
     BANS((table) -> {
         //存储现有的记录，同一人只有一条
         table.addAutoIncrementColumn("id", NumberType.INT, true, true);
-        table.addColumn("uuid", "VARCHAR(36) NOT NULL UNIQUE KEY");  //被执行者的UUID
+        table.addColumn("uuid", "VARCHAR(36) NOT NULL");  //被执行者的UUID
         table.addColumn("operator","VARCHAR(36) NOT NULL");  //执行者的UUID
         table.addColumn("until","DATETIME");  //结束的时间
         table.addColumn("issuedAt","DATETIME NOT NULL");  //被执行时的时间
@@ -24,7 +24,7 @@ public enum DateBaseTables implements SQLTable {
 //        table.addColumn("type","ENUM('ban','warn') NOT NULL"); //类型
         table.addColumn("isForever","BOOLEAN NOT NULL"); //是否永久封禁
 
-        table.setIndex("uuid", IndexType.INDEX);
+        table.setIndex("uuid", IndexType.UNIQUE_KEY);
     }),
     BAN_HISTORY((table) -> {
         //存储历史记录，同一人可以有多条
@@ -34,7 +34,7 @@ public enum DateBaseTables implements SQLTable {
         table.addColumn("until","DATETIME");  //持续的时间
         table.addColumn("reason","TEXT NOT NULL");  //理由
 //        table.addColumn("type","ENUM('ban','warn') NOT NULL"); //类型
-        table.addColumn("liftAs","ENUM('sys','console','user') NOT NULL"); //是否永久封禁
+        table.addColumn("liftAs","ENUM('sys','console','user') NOT NULL"); //解封类型
         table.addColumn("lifter","VARCHAR(36) NOT NULL");  //执行解除者的UUID
 
         table.setIndex("uuid", IndexType.INDEX);
@@ -57,34 +57,29 @@ public enum DateBaseTables implements SQLTable {
         return "ERROR_Tables";
     }
 
-
     @Override
-    public boolean create(SQLManager sqlManager) throws SQLException {
+    public boolean create(SQLManager sqlManager){
         return create(sqlManager,"ERROR_Tables");
     }
 
-    public boolean create(@NotNull SQLManager sqlManager, @NotNull String tableName) throws SQLException {
+    public boolean create(@NotNull SQLManager sqlManager, @NotNull String tableName){
         if (this.manager == null) this.manager = sqlManager;
-
-        TableCreateBuilder tableBuilder = sqlManager.createTable(tableName);
-        if (builder != null) builder.accept(tableBuilder);
-        return tableBuilder.build().executeFunction(l -> l > 0, false);
+        try{
+            ServerManager.getManager().debug("[数据库] 正在创建数据表 "+ tableName);
+            TableCreateBuilder tableBuilder = sqlManager.createTable(tableName);
+            if (builder != null) builder.accept(tableBuilder);
+            return tableBuilder.build().executeFunction(l -> l > 0, false);
+        }catch (SQLException exception){
+            ServerManager.getManager().error("[数据库] 创建数据表 "+ tableName +" 失败");
+            ServerManager.getManager().debug("SQLException",exception);
+        }
+        return false;
     }
 
-    public static void initializeBANS(@NotNull SQLManager manager, @NotNull String tablePrefix) {
-        try {
-            BANS.create(manager, tablePrefix+"BANS");
-        } catch (SQLException e) {
-            ServerManager.getManager().error("[数据库] 创建数据表 BANS 失败");
-            ServerManager.getManager().debug("SQLException",e);
-        }
-    }
-    public static void initializeBAN_HISTORY(@NotNull SQLManager manager, @NotNull String tablePrefix) {
-        try {
-            BAN_HISTORY.create(manager, tablePrefix+"BAN_HISTORY");
-        } catch (SQLException e) {
-            ServerManager.getManager().error("[数据库] 创建数据表 BAN_HISTORY 失败");
-            ServerManager.getManager().debug("SQLException",e);
-        }
+    public static void initialize(@NotNull SQLManager manager, @NotNull String tablePrefix) {
+
+        BANS.create(manager, tablePrefix+"_BANS");
+        BAN_HISTORY.create(manager, tablePrefix+"_BAN_HISTORY");
+
     }
 }

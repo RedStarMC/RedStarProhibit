@@ -72,6 +72,7 @@ public abstract class ConfigManager {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        setDebugMode(getBoolean("Debug"));
     }
 
     /**

@@ -52,7 +52,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] §r" + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] " + message + "§r");
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class ServerManager {
      */
     public final void info(String messages,Object... objects) {
         if (messages == null) return;
-        getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] §r" + toStrings.format(messages,objects) + "§r");
+        getConsoleSender().sendMessage(INFO_PREFIX + "§a[INFO] " + toStrings.format(messages,objects) + "§r");
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage(INFO_PREFIX + "§e[WARN] §r" + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§e[WARN] " + message + "§r");
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class ServerManager {
         if (messages == null) return;
         for (String message : messages) {
             if (message == null) continue;
-            getConsoleSender().sendMessage(INFO_PREFIX + "§c[ERROR] §r" + message + "§r");
+            getConsoleSender().sendMessage(INFO_PREFIX + "§c[ERROR] " + message + "§r");
         }
     }
 
@@ -99,7 +99,7 @@ public abstract class ServerManager {
         if (ConfigManager.getConfigManager().isDebugMode()) {
             for (String message : messages) {
                 if (message == null) continue;
-                getConsoleSender().sendMessage(INFO_PREFIX + "§6[DEBUG] §r" + message + "§r");
+                getConsoleSender().sendMessage(INFO_PREFIX + "§6[DEBUG] " + message + "§r");
             }
         }
     }

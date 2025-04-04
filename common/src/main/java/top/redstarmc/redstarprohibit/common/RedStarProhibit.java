@@ -1,7 +1,5 @@
 package top.redstarmc.redstarprohibit.common;
 
-import top.redstarmc.redstarprohibit.common.manager.ServerManager;
-
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,7 +19,7 @@ public interface RedStarProhibit {
     public default void onEnable(){
         setInstance(this);
         loadManagers();
-        loadDateBase();
+        loadCommands();
     }
     public default void onDisable(){
 
@@ -29,7 +27,7 @@ public interface RedStarProhibit {
 
     public void loadManagers();
 
-    public void loadDateBase();
+    public void loadCommands();
 
     public File getDataFolder();
 

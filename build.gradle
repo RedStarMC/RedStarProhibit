@@ -2,7 +2,7 @@ plugins{
     id 'java'
 }
 
-def version = "0.0.3"
+def version = "0.0.4"
 
 allprojects {
     apply plugin: 'java'
@@ -20,9 +20,7 @@ allprojects {
         compileOnly 'org.jetbrains:annotations:23.0.0'
         compileOnly 'org.yaml:snakeyaml:2.0'
         implementation 'com.h2database:h2:2.2.220'
-        implementation ('cc.carm.lib:easysql-hikaricp:0.4.7'){
-            exclude group: 'org.slf4j', module: 'slf4j-api'
-        }
+        implementation ('cc.carm.lib:easysql-hikaricp:0.4.7')
     }
 
     /*

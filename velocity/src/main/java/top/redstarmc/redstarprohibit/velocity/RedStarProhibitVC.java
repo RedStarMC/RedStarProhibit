@@ -56,11 +56,12 @@ public class RedStarProhibitVC implements RedStarProhibit {
     public void loadManagers() {
         new VCConfigManager().init();
         new VCServerManager();
+        new VCH2Manager().init();
     }
 
     @Override
-    public void loadDateBase() {
-        new VCH2Manager().init();
+    public void loadCommands() {
+
     }
 
     public static RedStarProhibitVC getInstance(){
@@ -70,10 +71,6 @@ public class RedStarProhibitVC implements RedStarProhibit {
     @Override
     public File getDataFolder() {
         return data_folder;
-    }
-
-    public Logger getLogger() {
-        return logger;
     }
 
     public ProxyServer getServer() {

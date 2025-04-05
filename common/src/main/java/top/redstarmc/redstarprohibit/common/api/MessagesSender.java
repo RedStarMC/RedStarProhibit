@@ -4,6 +4,7 @@ package top.redstarmc.redstarprohibit.common.api;
  * <h1>获得信息发送者，通常和ServerManager配置使用</h1>
  */
 public abstract class MessagesSender {
+
     /**
      * <h2>获得发送者名字</h2>
      * @return 名称

@@ -16,9 +16,9 @@ public class CustomDebugHandler implements SQLDebugHandler {
     public void beforeExecute(@NotNull SQLAction<?> action, @NotNull List<@Nullable Object[]> params) {
         serverManager.info("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         serverManager.info("┣# ActionUUID: {}", action.getActionUUID());
-        serverManager.info("┣# ActionType: {}" + action.getClass().getSimpleName());
+        serverManager.info("┣# ActionType: " + action.getClass().getSimpleName());
         if (action.getSQLContents().size() == 1) {
-            serverManager.info("┣# SQLContent: {}" + action.getSQLContents().get(0));
+            serverManager.info("┣# SQLContent: " + action.getSQLContents().get(0));
         } else {
             serverManager.info("┣# SQLContents: ");
             int i = 0;
@@ -29,7 +29,7 @@ public class CustomDebugHandler implements SQLDebugHandler {
         if (params.size() == 1) {
             Object[] param = params.get(0);
             if (param != null) {
-                serverManager.info("┣# SQLParam: {}" + parseParams(param));
+                serverManager.info("┣# SQLParam: " + parseParams(param));
             }
         } else if (params.size() > 1) {
             serverManager.info("┣# SQLParams: ");
@@ -38,7 +38,7 @@ public class CustomDebugHandler implements SQLDebugHandler {
                 serverManager.info("┃ - [{}] {}", ++i, parseParams(param));
             }
         }
-        serverManager.info("┣# CreateTime: {}" + action.getCreateTime(TimeUnit.MILLISECONDS));
+        serverManager.info("┣# CreateTime: " + action.getCreateTime(TimeUnit.MILLISECONDS));
         serverManager.info("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
@@ -46,7 +46,7 @@ public class CustomDebugHandler implements SQLDebugHandler {
     public void afterQuery(@NotNull SQLQuery query, long executeNanoTime, long closeNanoTime) {
         serverManager.info("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         serverManager.info("┣# ActionUUID: {}", query.getAction().getActionUUID());
-        serverManager.info("┣# SQLContent: {}" + query.getSQLContent());
+        serverManager.info("┣# SQLContent: " + query.getSQLContent());
         serverManager.info("┣# CloseTime: {}  (cost {} ms)",
                 TimeUnit.NANOSECONDS.toMillis(closeNanoTime),
                 ((double) (closeNanoTime - executeNanoTime) / 1000000)

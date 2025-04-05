@@ -43,7 +43,6 @@ public class RedStarProhibitVC implements RedStarProhibit {
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event){
         RedStarProhibit.super.onDisable();
-        logger.info("卸载成功");
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class ConfigManager {
 
@@ -62,7 +63,7 @@ public abstract class ConfigManager {
             if (config == null) {
                 config = new LinkedHashMap<>();
             }
-            if (!getConfig().containsKey("Versioning") ||  get("Versioning") != versioning) {
+            if (!getConfig().containsKey("Versioning") || !Objects.equals(getString("Versioning"), versioning)) {
                 set("Versioning", versioning);
                 setDefaultConfig();
                 save();

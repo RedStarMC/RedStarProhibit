@@ -5,7 +5,7 @@
 
 
 ## 开发困惑
-我现在想使用brigadier构建命令树，但是我只能在paper或者velocity中构建，我没法在common中构建。因为我在不同平台的命令是完全相同的。
+我现在想使用brigadier构建命令树，但是我在common构建完命令树后，无法使用我已经编写的MessageSender作为命令源，Velocity和Paper都不接受这个命令来源
 
 如果你想要参与开发，请联系 QQ：3265679489
 

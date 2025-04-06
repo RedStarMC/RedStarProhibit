@@ -3,7 +3,7 @@ package top.redstarmc.redstarprohibit.common.manager;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import top.redstarmc.redstarprohibit.common.RedStarProhibit;
-import top.redstarmc.redstarprohibit.common.utils.MapBuilder;
+import top.redstarmc.redstarprohibit.common.api.MapBuilder;
 import top.redstarmc.redstarprohibit.common.utils.Stream;
 
 import java.io.File;

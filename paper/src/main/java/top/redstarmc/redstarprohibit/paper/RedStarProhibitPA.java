@@ -23,6 +23,7 @@ public class RedStarProhibitPA extends JavaPlugin implements RedStarProhibit{
         new PAConfigManager().init();
         new PAServerManager();
         new PAH2Manager().init();
+
     }
 
     public static RedStarProhibitPA getInstance() {

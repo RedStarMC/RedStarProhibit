@@ -1,6 +1,6 @@
 package top.redstarmc.redstarprohibit.velocity.api;
 
-import top.redstarmc.redstarprohibit.common.utils.MapBuilder;
+import top.redstarmc.redstarprohibit.common.api.MapBuilder;
 
 import java.util.Map;
 

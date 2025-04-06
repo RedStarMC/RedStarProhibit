@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.utils;
+package top.redstarmc.redstarprohibit.common.api;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

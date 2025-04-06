@@ -1,6 +1,7 @@
 package top.redstarmc.redstarprohibit.velocity;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -51,7 +52,9 @@ public class RedStarProhibitVC implements RedStarProhibit {
         new VCConfigManager().init();
         new VCServerManager();
         new VCH2Manager().init();
-        new VCCommandManager().register();
+
+        CommandManager commandManager = getServer().getCommandManager();
+        new VCCommandManager(commandManager);
     }
 
     public static RedStarProhibitVC getInstance(){

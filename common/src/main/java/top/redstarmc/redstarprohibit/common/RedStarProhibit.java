@@ -16,18 +16,15 @@ public interface RedStarProhibit {
     }
 
 
-    public default void onEnable(){
+    public default void onStart(){
         setInstance(this);
         loadManagers();
-        loadCommands();
     }
-    public default void onDisable(){
+    public default void onClose(){
 
     }
 
     public void loadManagers();
-
-    public void loadCommands();
 
     public File getDataFolder();
 

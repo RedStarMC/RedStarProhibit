@@ -10,12 +10,12 @@ public class RedStarProhibitPA extends JavaPlugin implements RedStarProhibit{
 
     @Override
     public void onDisable() {
-        RedStarProhibit.super.onDisable();
+        RedStarProhibit.super.onClose();
     }
 
     @Override
     public void onEnable() {
-        RedStarProhibit.super.onEnable();
+        RedStarProhibit.super.onStart();
     }
 
     @Override
@@ -25,12 +25,8 @@ public class RedStarProhibitPA extends JavaPlugin implements RedStarProhibit{
         new PAH2Manager().init();
     }
 
-    @Override
-    public void loadCommands() {
-
-    }
-
     public static RedStarProhibitPA getInstance() {
         return RedStarProhibit.getInstance();
     }
+
 }

@@ -1,12 +1,13 @@
 package top.redstarmc.redstarprohibit.velocity.api;
 
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
 
-public class VCMessagesSender extends MessagesSender {
+public class VCMessagesSender extends MessagesSender implements CommandSource{
     private final CommandSource sender;
 
     public VCMessagesSender(CommandSource sender) {
@@ -54,4 +55,16 @@ public class VCMessagesSender extends MessagesSender {
     public boolean hasPermission(String s) {
         return sender.hasPermission(s);
     }
+
+    /**
+     * Gets the subjects setting for a particular permission.
+     *
+     * @param permission the permission
+     * @return the value the permission is set to
+     */
+    @Override
+    public Tristate getPermissionValue(String permission) {
+        return sender.getPermissionValue(permission);
+    }
+
 }

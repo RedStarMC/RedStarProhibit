@@ -1,5 +1,7 @@
 package top.redstarmc.redstarprohibit.common.manager;
 
-public interface CommandManger<S>{
+import top.redstarmc.redstarprohibit.common.api.MessagesSender;
+
+public interface CommandManger<S extends MessagesSender>{
 
 }

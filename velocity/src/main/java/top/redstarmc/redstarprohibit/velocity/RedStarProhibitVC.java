@@ -16,6 +16,7 @@ import top.redstarmc.redstarprohibit.velocity.manager.VCH2Manager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCServerManager;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
 @Plugin(
@@ -54,7 +55,12 @@ public class RedStarProhibitVC implements RedStarProhibit {
         new VCH2Manager().init();
 
         CommandManager commandManager = getServer().getCommandManager();
-        new VCCommandManager(commandManager);
+        try {
+            new VCCommandManager(commandManager);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            VCServerManager.getManager().error("注册命令的过程中出现了问题！"+e.getMessage());
+            VCServerManager.getManager().debug("错误堆栈：",e);
+        }
     }
 
     public static RedStarProhibitVC getInstance(){

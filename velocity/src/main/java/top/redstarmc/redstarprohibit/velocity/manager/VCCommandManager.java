@@ -1,34 +1,41 @@
 package top.redstarmc.redstarprohibit.velocity.manager;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
-import org.jetbrains.annotations.NotNull;
-import top.redstarmc.redstarprohibit.common.api.CommandBuilder;
+import com.velocitypowered.api.command.CommandSource;
 import top.redstarmc.redstarprohibit.common.manager.CommandManger;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
-import top.redstarmc.redstarprohibit.velocity.api.VCMessagesSender;
+import top.redstarmc.redstarprohibit.velocity.command.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+public class VCCommandManager implements CommandManger{
 
-public class VCCommandManager implements CommandManger<VCMessagesSender> {
-
-    public VCCommandManager(@NotNull CommandManager commandManager) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        CommandMeta commandMeta = commandManager.metaBuilder("RedStarProhibit").plugin(RedStarProhibitVC.getInstance().getServer()).build();
-
-        // 通过反射获取 BrigadierCommand 的构造函数
-        Constructor<BrigadierCommand> constructor = BrigadierCommand.class.getConstructor(LiteralCommandNode.class);
-
-        CommandBuilder<VCMessagesSender> builder = new CommandBuilder<>(this);
-        LiteralCommandNode<VCMessagesSender> node = builder.build();
-
-        // 使用反射创建 BrigadierCommand 实例
-        BrigadierCommand command = constructor.newInstance(node);
-
-        commandManager.register(commandMeta,command);
+    @Override
+    public void init() {
+        CommandManager commandManager = RedStarProhibitVC.getInstance().getServer().getCommandManager();
+        CommandMeta commandMeta = commandManager.metaBuilder("RedStarProhibit")
+                .plugin(RedStarProhibitVC.getInstance())
+                .aliases("rsp")
+                .build();
+        commandManager.register(commandMeta,new BrigadierCommand(build()));
     }
 
+
+    public LiteralCommandNode<CommandSource> build(){
+        return LiteralArgumentBuilder.<CommandSource>literal("RedStarProhibit")
+                .requires(source -> source.hasPermission("RedStarProhibit.info"))
+                .executes(context -> {
+                    return Command.SINGLE_SUCCESS;
+                })
+                .then(new BanBuilder().build())
+                .then(new TempBanBuilder().build())
+                .then(new UnBanBuilder().build())
+                .then(new BanHistoryBuilder().build())
+                .then(new KickBuilder().build())
+                .build();
+    }
 
 }

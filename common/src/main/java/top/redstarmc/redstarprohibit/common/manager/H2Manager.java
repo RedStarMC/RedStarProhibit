@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public abstract class H2Manager {
 
-    private SQLManagerImpl sqlManager;
+    private static SQLManagerImpl sqlManager;
 
     public static final String tablePrefix = "RedStarProhibit";
 
@@ -65,7 +65,7 @@ public abstract class H2Manager {
         sqlManager = EasySQL.createManager(diver,url,username,password);
     }
 
-    public SQLManager getSqlManager() {
+    public static SQLManager getSqlManager() {
         return sqlManager;
     }
 

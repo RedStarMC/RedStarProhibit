@@ -1,7 +1,6 @@
 package top.redstarmc.redstarprohibit.velocity;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -16,7 +15,6 @@ import top.redstarmc.redstarprohibit.velocity.manager.VCH2Manager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCServerManager;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
 @Plugin(
@@ -53,14 +51,7 @@ public class RedStarProhibitVC implements RedStarProhibit {
         new VCConfigManager().init();
         new VCServerManager();
         new VCH2Manager().init();
-
-        CommandManager commandManager = getServer().getCommandManager();
-        try {
-            new VCCommandManager(commandManager);
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            VCServerManager.getManager().error("注册命令的过程中出现了问题！"+e.getMessage());
-            VCServerManager.getManager().debug("错误堆栈：",e);
-        }
+        new VCCommandManager().init();
     }
 
     public static RedStarProhibitVC getInstance(){

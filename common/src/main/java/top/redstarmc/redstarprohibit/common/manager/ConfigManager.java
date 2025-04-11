@@ -27,6 +27,7 @@ public abstract class ConfigManager {
             .set("DateBase.Url","jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL;")
             .set("DateBase.username","root")
             .set("DateBase.password","password")
+            .set("Setting.confirm",true)
             .toMap();
 
     private static final File config_file = new File(RedStarProhibit.getInstance().getDataFolder(),"config.yml");

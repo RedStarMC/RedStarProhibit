@@ -10,4 +10,5 @@ repositories {
 
 dependencies{
     compileOnly "com.mojang:brigadier:1.0.18"
+    implementation "net.kyori:adventure-api:4.19.0"
 }

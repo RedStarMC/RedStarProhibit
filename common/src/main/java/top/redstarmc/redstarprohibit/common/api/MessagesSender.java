@@ -9,6 +9,7 @@ public abstract class MessagesSender {
      * <h2>获得发送者名字</h2>
      * @return 名称
      */
+    @Deprecated
     public abstract String getName();
 
     /**
@@ -22,6 +23,7 @@ public abstract class MessagesSender {
      * @param s 权限节点
      * @return 是否有
      */
+    @Deprecated
     public abstract boolean hasPermission(String s);
 
 }

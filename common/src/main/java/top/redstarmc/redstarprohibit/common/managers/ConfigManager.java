@@ -110,6 +110,7 @@ public abstract class ConfigManager {
 
     /**
      * <h2>本抽象类的初始化方法，也是入口</h2>
+     * 读取文件，创建实例化配置文件
      */
     public void init(){
         DumperOptions dumperoptions = new DumperOptions();
@@ -220,34 +221,43 @@ public abstract class ConfigManager {
     }
 
 
-
-    public Map<String, Object> getConfig() {
+    private Map<String, Object> getConfig() {
         return config;
     }
-    public Map<String, Object> getLanguage(){
+    private Map<String, Object> getLanguage(){
         return language;
     }
 
-    public static File getConfigFile(){
+
+    private static File getConfigFile(){
         return config_file;
     }
-    public static File getLanguageFile(){
+    private static File getLanguageFile(){
         return language_file;
     }
 
+    /**
+     * 获得配置文件Map实例
+     * @return {@link LinkedHashMap} 实例
+     */
     public LinkedHashMap<String,Object> getConfigMap(){
         return config;
     }
+    /**
+     * 获得语言配置文件Map实例
+     * @return {@link LinkedHashMap} 实例
+     */
     public LinkedHashMap<String,Object> getLanguageMap(){
         return config;
     }
 
 
-
-    /*
-        内容方法区
+    /**
+     * 设置对应配置文件的内容
+     * @param path yml路径
+     * @param value 值
+     * @param map 配置文件集合
      */
-
     @SuppressWarnings("unchecked")
     public void set(String path, Object value, LinkedHashMap<String,Object> map) {
         LinkedHashMap<String, Object> tmap = map;
@@ -261,6 +271,12 @@ public abstract class ConfigManager {
         tmap.put(path, value);
     }
 
+    /**
+     * 获得对应配置文件的内容
+     * @param path yml路径
+     * @param map 配置文件集合
+     * @return 获得的内容
+     */
     @SuppressWarnings("unchecked")
     public <T> T get(String path, LinkedHashMap<String,Object> map) {
         LinkedHashMap<String, Object> tmap = map;
@@ -275,6 +291,12 @@ public abstract class ConfigManager {
         return (T) tmap.get(path);
     }
 
+    /**
+     * 通过 {@link #get(String, LinkedHashMap)} 方法获得 long 类型的内容
+     * @param key yml路径
+     * @param map 配置文件集合
+     * @return long 类型的内容
+     */
     public long getLong(String key, LinkedHashMap<String,Object> map) {
         Object got = get(key,map);
         if (got == null)
@@ -282,6 +304,12 @@ public abstract class ConfigManager {
         return (got instanceof Number) ? ((Number) got).longValue() : (long) got;
     }
 
+    /**
+     * 通过 {@link #get(String, LinkedHashMap)} 方法获得 int 类型的内容
+     * @param key yml路径
+     * @param map 配置文件集合
+     * @return int 类型的内容
+     */
     public int getInt(String key, LinkedHashMap<String,Object> map) {
         Object got = get(key,map);
         if (got == null)
@@ -296,21 +324,34 @@ public abstract class ConfigManager {
         return 0;
     }
 
+    /**
+     * 通过 {@link #get(String, LinkedHashMap)} 方法获得 boolean 类型的内容
+     * @param key yml路径
+     * @param map 配置文件集合
+     * @return boolean 类型的内容
+     */
     public boolean getBoolean(String key, LinkedHashMap<String,Object> map) {
         Object got = get(key,map);
         return (got instanceof Boolean) ? (Boolean) got : "true".equalsIgnoreCase(String.valueOf(got));
     }
 
+    /**
+     * 通过 {@link #get(String, LinkedHashMap)} 方法获得 {@link String} 类型的内容
+     * @param key yml路径
+     * @param map 配置文件集合
+     * @return {@link String} 类型的内容
+     */
     public String getString(String key, LinkedHashMap<String,Object> map) {
         return String.valueOf((Object) get(key,map));
         //
     }
 
-    public boolean isDebugMode() {
-        return isDebugMode;
-        //
-    }
-
+    /**
+     * 通过 {@link #get(String, LinkedHashMap)} 方法获得 {@link List} 类型的内容
+     * @param key yml路径
+     * @param map 配置文件集合
+     * @return {@link List} 类型的内容
+     */
     public List<String> getStringList(String key, LinkedHashMap<String,Object> map) {
         if (get(key,map) instanceof List) {
             return get(key,map);
@@ -318,8 +359,16 @@ public abstract class ConfigManager {
         return null;
     }
 
+    /**
+     * 是否为Debug模式
+     * @return boolean，代表是否启用Debug模式
+     */
+    public boolean isDebugMode() {
+        return isDebugMode;
+        //
+    }
 
-    public static void setDebugMode(boolean isDebugMode) {
+    private static void setDebugMode(boolean isDebugMode) {
         ConfigManager.isDebugMode = isDebugMode;
         //
     }

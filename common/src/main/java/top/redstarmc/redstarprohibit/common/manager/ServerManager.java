@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.managers;
+package top.redstarmc.redstarprohibit.common.manager;
 
 import org.jetbrains.annotations.NotNull;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;

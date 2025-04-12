@@ -7,8 +7,8 @@ import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.CommandSource;
-import top.redstarmc.redstarprohibit.common.api.components.CommandIntroduce;
-import top.redstarmc.redstarprohibit.common.managers.CommandManger;
+import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
+import top.redstarmc.redstarprohibit.common.manager.CommandManger;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.command.*;
 
@@ -38,6 +38,7 @@ public class VCCommandManager implements CommandManger{
                 .then(new BanHistoryBuilder().build())
                 .then(new KickBuilder().build())
                 .then(new HelpBuilder().build())
+                .then(new ConfirmBuilder().build())
                 .build();
     }
 

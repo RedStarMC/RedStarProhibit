@@ -10,7 +10,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import top.redstarmc.redstarprohibit.common.api.components.CommandIntroduce;
+import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -44,7 +44,9 @@ public class KickBuilder implements VCCommandBuilder {
                                 .executes(context -> {
                                     String player_name = context.getArgument("player_name", String.class);
                                     String reason = context.getArgument("reason", String.class);
+
                                     kickPlayer(proxyServer,text("测试踢出消息:"+reason),player_name);
+
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )

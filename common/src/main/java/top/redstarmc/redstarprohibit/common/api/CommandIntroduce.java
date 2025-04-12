@@ -1,11 +1,11 @@
-package top.redstarmc.redstarprohibit.common.api.components;
+package top.redstarmc.redstarprohibit.common.api;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import top.redstarmc.redstarprohibit.common.managers.ConfigManager;
+import top.redstarmc.redstarprohibit.common.manager.ConfigManager;
 
 import static net.kyori.adventure.text.Component.text;
 

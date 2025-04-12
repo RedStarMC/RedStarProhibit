@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.managers;
+package top.redstarmc.redstarprohibit.common.manager;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;

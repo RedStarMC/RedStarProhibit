@@ -14,13 +14,16 @@ public class Configs {
             .set("DateBase.username","root")
             .set("DateBase.password","password")
             .set("Setting.confirm",true)
+            .set("Setting.broadcast",true)
             .toMap();
+
 
     public static final Map<String, Object> default_language = MapBuilder.of(String.class, Object.class)
             .set("a","a")
             .toMap();
 
 
-
-
+    public static final Map<String, Object> default_message = MapBuilder.of(String.class, Object.class)
+            .set("a","a")
+            .toMap();
 }

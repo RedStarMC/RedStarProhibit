@@ -7,7 +7,7 @@ import cc.carm.lib.easysql.api.enums.IndexType;
 import cc.carm.lib.easysql.api.enums.NumberType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.redstarmc.redstarprohibit.common.managers.ServerManager;
+import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 
 import java.sql.SQLException;
 import java.util.function.Consumer;

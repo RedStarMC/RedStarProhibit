@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
 import top.redstarmc.redstarprohibit.common.RedStarProhibit;
+import top.redstarmc.redstarprohibit.velocity.command.tool.QueueCommandManager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCCommandManager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCConfigManager;
 import top.redstarmc.redstarprohibit.velocity.manager.VCH2Manager;
@@ -28,6 +29,7 @@ public class RedStarProhibitVC implements RedStarProhibit {
     private final Logger logger;
     private final ProxyServer server;
     private final File data_folder;
+    private QueueCommandManager queueCommandManager;
 
     @Inject
     public RedStarProhibitVC(Logger logger, ProxyServer server,@DataDirectory Path DataDirectory){
@@ -52,6 +54,8 @@ public class RedStarProhibitVC implements RedStarProhibit {
         new VCServerManager();
         new VCH2Manager().init();
         new VCCommandManager().init();
+
+        queueCommandManager = new QueueCommandManager();
     }
 
     public static RedStarProhibitVC getInstance(){
@@ -65,5 +69,9 @@ public class RedStarProhibitVC implements RedStarProhibit {
 
     public ProxyServer getServer() {
         return server;
+    }
+
+    public QueueCommandManager getQueueCommandManager() {
+        return queueCommandManager;
     }
 }

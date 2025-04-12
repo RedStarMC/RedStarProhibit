@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.managers;
+package top.redstarmc.redstarprohibit.common.manager;
 
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;

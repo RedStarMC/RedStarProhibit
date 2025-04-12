@@ -9,6 +9,7 @@ import com.velocitypowered.api.command.VelocityBrigadierMessage;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.components.CommandIntroduce;
 
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class KickBuilder implements VCCommandBuilder {
                             return builder.buildFuture();
                         })
                         .executes(context -> {
-                            context.getSource().sendMessage(text("没有输入参数！"));
+                            context.getSource().sendMessage(text().append(CommandIntroduce.getPluginPrefix()).append(text("没有输入参数！", NamedTextColor.RED).append(text(""))));
                             return -1;
                         })
                         .then(BrigadierCommand.requiredArgumentBuilder("reason", StringArgumentType.greedyString())

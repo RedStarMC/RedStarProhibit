@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.manager;
+package top.redstarmc.redstarprohibit.common.managers;
 
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
@@ -9,6 +9,7 @@ import top.redstarmc.redstarprohibit.common.datebase.CustomDebugHandler;
 import top.redstarmc.redstarprohibit.common.datebase.DateBaseTables;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 
 public abstract class H2Manager {
 
@@ -16,8 +17,10 @@ public abstract class H2Manager {
 
     public static final String tablePrefix = "RedStarProhibit";
 
+    public LinkedHashMap<String,Object> map = ConfigManager.configManager.getConfigMap();
+
     public void init(){
-        String mode = ConfigManager.getConfigManager().getString("DateBase.mode");
+        String mode = ConfigManager.getConfigManager().getString("DateBase.mode",map);
         if(mode.equals("Embedded")){
             ServerManager.getManager().info("[数据库] 加载嵌入式（Embedded）数据库");
             initEmbedded();
@@ -46,8 +49,8 @@ public abstract class H2Manager {
     }
 
     private void initEmbedded(){
-        String diver = ConfigManager.getConfigManager().getString("DateBase.Driver");
-        String url = ConfigManager.getConfigManager().getString("DateBase.Url");
+        String diver = ConfigManager.getConfigManager().getString("DateBase.Driver",map);
+        String url = ConfigManager.getConfigManager().getString("DateBase.Url",map);
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(diver);
         config.setJdbcUrl(url);
@@ -57,10 +60,10 @@ public abstract class H2Manager {
     }
 
     private void initServer(){
-        String diver = ConfigManager.getConfigManager().getString("DateBase.Driver");
-        String url = ConfigManager.getConfigManager().getString("DateBase.Url");
-        String username = ConfigManager.getConfigManager().getString("DateBase.username");
-        String password = ConfigManager.getConfigManager().getString("DateBase.password");
+        String diver = ConfigManager.getConfigManager().getString("DateBase.Driver",map);
+        String url = ConfigManager.getConfigManager().getString("DateBase.Url",map);
+        String username = ConfigManager.getConfigManager().getString("DateBase.username",map);
+        String password = ConfigManager.getConfigManager().getString("DateBase.password",map);
 
         sqlManager = EasySQL.createManager(diver,url,username,password);
     }

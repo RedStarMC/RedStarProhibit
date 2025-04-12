@@ -1,4 +1,4 @@
-package top.redstarmc.redstarprohibit.common.manager;
+package top.redstarmc.redstarprohibit.common.managers;
 
 import org.jetbrains.annotations.NotNull;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
@@ -15,7 +15,7 @@ public abstract class ServerManager {
 
     protected ServerManager() {
         manager = this;
-        INFO_PREFIX = ConfigManager.getConfigManager().getString("PluginPrefix") + "§r ";
+        INFO_PREFIX = ConfigManager.getConfigManager().getString("PluginPrefix",ConfigManager.configManager.getConfigMap()) + "§r ";
     }
 
     /**

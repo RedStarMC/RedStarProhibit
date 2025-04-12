@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
 import top.redstarmc.redstarprohibit.common.api.ServerType;
-import top.redstarmc.redstarprohibit.common.manager.ServerManager;
+import top.redstarmc.redstarprohibit.common.managers.ServerManager;
 import top.redstarmc.redstarprohibit.paper.RedStarProhibitPA;
 import top.redstarmc.redstarprohibit.paper.api.PAMessagesSender;
 

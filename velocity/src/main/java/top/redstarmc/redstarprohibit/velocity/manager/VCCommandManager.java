@@ -8,7 +8,7 @@ import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.CommandSource;
 import top.redstarmc.redstarprohibit.common.api.components.CommandIntroduce;
-import top.redstarmc.redstarprohibit.common.manager.CommandManger;
+import top.redstarmc.redstarprohibit.common.managers.CommandManger;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.command.*;
 

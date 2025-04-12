@@ -4,7 +4,7 @@ import cc.carm.lib.easysql.api.SQLManager;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
-import top.redstarmc.redstarprohibit.common.manager.H2Manager;
+import top.redstarmc.redstarprohibit.common.managers.H2Manager;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 
 public interface VCCommandBuilder {

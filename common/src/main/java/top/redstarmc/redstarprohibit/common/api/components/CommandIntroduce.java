@@ -1,10 +1,11 @@
 package top.redstarmc.redstarprohibit.common.api.components;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import top.redstarmc.redstarprohibit.common.manager.ConfigManager;
+import top.redstarmc.redstarprohibit.common.managers.ConfigManager;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -25,9 +26,9 @@ public class CommandIntroduce {
                         text("RedStarProhibit" , NamedTextColor.RED),
                         text("  运行版本 "+ ConfigManager.versioning , NamedTextColor.AQUA),next)
                 .append(PluginPrefix,
-                        text("使用",NamedTextColor.AQUA),
-                        text(" /rsp help ",NamedTextColor.GOLD),
-                        text("来查看命令列表",NamedTextColor.AQUA),next)
+                        text("使用 ",NamedTextColor.AQUA),
+                        Component.keybind("/rsp help").color(NamedTextColor.GOLD).clickEvent(ClickEvent.suggestCommand("/rsp help")),
+                        text(" 来查看命令列表",NamedTextColor.AQUA))
                 .build();
     }
 
@@ -45,4 +46,7 @@ public class CommandIntroduce {
                 .build();
     }
 
+    public static @NotNull Component getPluginPrefix(){
+        return PluginPrefix;
+    }
 }

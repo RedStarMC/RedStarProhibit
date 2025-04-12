@@ -4,10 +4,9 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import top.redstarmc.redstarprohibit.common.RedStarProhibit;
 import top.redstarmc.redstarprohibit.common.api.MessagesSender;
 import top.redstarmc.redstarprohibit.common.api.ServerType;
-import top.redstarmc.redstarprohibit.common.manager.ServerManager;
+import top.redstarmc.redstarprohibit.common.managers.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.api.VCMessagesSender;
 

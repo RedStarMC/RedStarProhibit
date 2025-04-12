@@ -1,4 +1,4 @@
 rootProject.name = 'RedStarProhibit'
 include 'velocity'
-include 'paper'
+//include 'paper'
 include 'common'

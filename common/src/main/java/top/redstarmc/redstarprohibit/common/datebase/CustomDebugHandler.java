@@ -5,7 +5,7 @@ import cc.carm.lib.easysql.api.SQLQuery;
 import cc.carm.lib.easysql.api.function.SQLDebugHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.redstarmc.redstarprohibit.common.manager.ServerManager;
+import top.redstarmc.redstarprohibit.common.managers.ServerManager;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

@@ -12,3 +12,6 @@ dependencies{
     compileOnly "com.mojang:brigadier:1.0.18"
     implementation "net.kyori:adventure-api:4.19.0"
 }
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}

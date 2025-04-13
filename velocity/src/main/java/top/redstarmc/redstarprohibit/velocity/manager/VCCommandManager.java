@@ -39,6 +39,7 @@ public class VCCommandManager implements CommandManger{
                 .then(new KickBuilder().build())
                 .then(new HelpBuilder().build())
                 .then(new ConfirmBuilder().build())
+                .then(new ReloadBuilder().build())
                 .build();
     }
 

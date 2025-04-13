@@ -80,6 +80,14 @@ public abstract class ConfigManager {
      * 是否为Debug模式
      */
     private static boolean isDebugMode;
+    /**
+     * 是否需要 确认 命令
+     */
+    private static boolean isConfirm;
+    /**
+     * 是否需要广播封禁消息
+     */
+    private static boolean isBroadcast;
 
 
     /*
@@ -133,6 +141,9 @@ public abstract class ConfigManager {
             ex.printStackTrace();
         }
         setDebugMode(getBoolean("Debug", config));
+        setIsConfirm(getBoolean("Setting.confirm", config));
+        setIsBroadcast(getBoolean("Setting.broadcast", config));
+
 
         //Language 初始化过程
         yamlLanguageLoader = new Yaml(dumperoptions);
@@ -150,6 +161,7 @@ public abstract class ConfigManager {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
 
     }
 
@@ -180,18 +192,18 @@ public abstract class ConfigManager {
 
 
 
-    public void setDefaultConfig() {
+    private void setDefaultConfig() {
         default_config.forEach(this::setDefaultConfigPath);
         //
     }
 
-    public void setDefaultConfigPath(String key, Object value) {
+    private void setDefaultConfigPath(String key, Object value) {
         if (!config.containsKey(key)) {
             set(key, value, config);
         }
     }
 
-    public void saveConfig() {
+    private void saveConfig() {
         try (Writer writer = Files.newBufferedWriter(getConfigFile().toPath(), StandardCharsets.UTF_8)) {
             yamlConfigLoader.dump(config, writer);
         } catch (IOException ex) {
@@ -201,18 +213,18 @@ public abstract class ConfigManager {
 
 
 
-    public void setDefaultLanguage() {
+    private void setDefaultLanguage() {
         default_language.forEach(this::setDefaultLanguagePath);
         //
     }
 
-    public void setDefaultLanguagePath(String key, Object value) {
+    private void setDefaultLanguagePath(String key, Object value) {
         if (!language.containsKey(key)) {
             set(key, value, language);
         }
     }
 
-    public void saveLanguage() {
+    private void saveLanguage() {
         try (Writer writer = Files.newBufferedWriter(getLanguageFile().toPath(), StandardCharsets.UTF_8)) {
             yamlLanguageLoader.dump(language, writer);
         } catch (IOException ex) {
@@ -373,4 +385,23 @@ public abstract class ConfigManager {
         //
     }
 
+    public static boolean isIsConfirm() {
+        return isConfirm;
+        //
+    }
+
+    public static void setIsConfirm(boolean isConfirm) {
+        ConfigManager.isConfirm = isConfirm;
+        //
+    }
+
+    public static boolean isIsBroadcast() {
+        return isBroadcast;
+        //
+    }
+
+    public static void setIsBroadcast(boolean isBroadcast) {
+        ConfigManager.isBroadcast = isBroadcast;
+        //
+    }
 }

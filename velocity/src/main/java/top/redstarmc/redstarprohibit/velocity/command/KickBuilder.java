@@ -7,7 +7,6 @@ import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.VelocityBrigadierMessage;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
@@ -37,7 +36,10 @@ public class KickBuilder implements VCCommandBuilder {
                             return builder.buildFuture();
                         })
                         .executes(context -> {
-                            context.getSource().sendMessage(text().append(CommandIntroduce.getPluginPrefix()).append(text("没有输入参数！", NamedTextColor.RED).append(text(""))));
+                            context.getSource().sendMessage(text()
+                                    .append(CommandIntroduce.getPluginPrefix())
+                                    .append(text("没有输入理由！", NamedTextColor.RED))
+                                    .append(text("")));
                             return -1;
                         })
                         .then(BrigadierCommand.requiredArgumentBuilder("reason", StringArgumentType.greedyString())
@@ -45,7 +47,7 @@ public class KickBuilder implements VCCommandBuilder {
                                     String player_name = context.getArgument("player_name", String.class);
                                     String reason = context.getArgument("reason", String.class);
 
-                                    kickPlayer(proxyServer,text("测试踢出消息:"+reason),player_name);
+                                    kickPlayer(context.getSource(),text("测试踢出消息:"+reason),player_name);
 
                                     return Command.SINGLE_SUCCESS;
                                 })
@@ -53,26 +55,30 @@ public class KickBuilder implements VCCommandBuilder {
                 );
     }
 
-    public static boolean kickPlayer(ProxyServer server, Component component, UUID uuid){
+    public static void kickPlayer(CommandSource source, Component component, UUID uuid){
         Player player = null;
-        for(Player p : server.getAllPlayers()){
+        for(Player p : proxyServer.getAllPlayers()){
             if(p.getUniqueId() == uuid){
                 player = p;
             }
         }
         if(player == null){
-            return false;
+            source.sendMessage(text()
+                    .append(CommandIntroduce.getPluginPrefix())
+                    .append(text("指定的玩家不存在！", NamedTextColor.RED)));
+            return;
         }
         player.disconnect(component);
-        return true;
     }
 
-    public static boolean kickPlayer(ProxyServer server, Component component, String player_name){
-        Optional<Player> optionalPlayer =  server.getPlayer(player_name);
+    public static void kickPlayer(CommandSource source, Component component, String player_name){
+        Optional<Player> optionalPlayer =  proxyServer.getPlayer(player_name);
         if (optionalPlayer.isEmpty()){
-            return false;
+            source.sendMessage(text()
+                    .append(CommandIntroduce.getPluginPrefix())
+                    .append(text("指定的玩家不存在！", NamedTextColor.RED)));
+            return;
         }
         optionalPlayer.ifPresent(player -> player.disconnect(component));
-        return true;
     }
 }

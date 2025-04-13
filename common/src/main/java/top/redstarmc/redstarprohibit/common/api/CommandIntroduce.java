@@ -35,12 +35,32 @@ public class CommandIntroduce {
     @Contract(" -> new")
     public static @NotNull Component getHelp(){
         return text()
-                .append(text("a", NamedTextColor.RED))
+                .append(PluginPrefix,
+                        text("RedStarProhibit" , NamedTextColor.RED),
+                        text("  运行版本 "+ ConfigManager.versioning , NamedTextColor.AQUA),next)
+                .append(PluginPrefix,
+                        text("命 令 帮 助",NamedTextColor.AQUA),next)
+                .append(getKick())
+                .append(getBan())
                 .build();
     }
 
     @Contract(" -> new")
     public static @NotNull Component getKick(){
+        return text()
+                .append(PluginPrefix,
+                        text("/rsp kick",NamedTextColor.GOLD),
+                        text("[玩家] [理由]",NamedTextColor.GREEN), next)
+                .append(PluginPrefix,
+                        text("以",NamedTextColor.AQUA),
+                        text("[理由]",NamedTextColor.GREEN),
+                        text("在 Velocity上 踢出",NamedTextColor.AQUA),
+                        text("[玩家]",NamedTextColor.GREEN))
+                .build();
+    }
+
+    @Contract(" -> new")
+    public static @NotNull Component getBan(){
         return text()
                 .append(text("a", NamedTextColor.RED))
                 .build();

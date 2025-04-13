@@ -56,6 +56,8 @@ public class RedStarProhibitVC implements RedStarProhibit {
         new VCCommandManager().init();
 
         queueCommandManager = new QueueCommandManager();
+
+        server.getEventManager().register(this, new Listener());
     }
 
     public static RedStarProhibitVC getInstance(){

@@ -42,7 +42,8 @@ public class QueryOperates {
                                 Timestamp now = new Timestamp(System.currentTimeMillis());
 
                                 if (until != null && until.compareTo(now) < 0) {
-                                    serverManager.debug(until.toString());
+                                    // TODO 移动到历史记录里
+                                    DeleteOperates.Bans(sqlManager, uuid);
                                     return 0;
                                 }
 

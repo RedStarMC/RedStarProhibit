@@ -81,7 +81,7 @@ public class BanBuilder implements VCCommandBuilder {
             operator = "Console";
         }
 
-        Timestamp until = new Timestamp(0L);
+        Timestamp until = new Timestamp(Long.MAX_VALUE);
         Timestamp issuedAt = new Timestamp(System.currentTimeMillis());
 
         InsertOperates.Bans(sqlManager, uuid, operator, until, issuedAt, reason, true);

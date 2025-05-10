@@ -25,8 +25,6 @@ public class Listener {
         ServerManager.getManager().debug("处理 PreLoginEvent ，UUID: " + uuid);
 
         if (uuid == null) {
-            ServerManager.getManager().warn("触发错误！玩家UUID为空");
-            event.setResult(PreLoginEvent.PreLoginComponentResult.denied(text("错误！你传入的UUID为空！", NamedTextColor.RED)));
             return;
         }
 

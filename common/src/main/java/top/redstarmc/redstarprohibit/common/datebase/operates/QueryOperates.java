@@ -42,6 +42,7 @@ public class QueryOperates {
                                 Timestamp now = new Timestamp(System.currentTimeMillis());
 
                                 if (until != null && until.compareTo(now) < 0) {
+                                    serverManager.debug(until.toString());
                                     return 0;
                                 }
 

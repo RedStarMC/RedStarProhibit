@@ -6,6 +6,7 @@ import top.redstarmc.redstarprohibit.common.manager.H2Manager;
 import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -15,40 +16,53 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class QueryOperates {
 
+    private static final ServerManager serverManager = ServerManager.getManager();
+
     public static Result Bans(SQLManager sqlManager, String uuid) {
         AtomicReference<Result> result = new AtomicReference<>();
         sqlManager.createQuery()
                 .inTable(H2Manager.tablePrefix+"_BANS")
-                .selectColumns("uuid")
-                .addCondition(uuid)
+                .selectColumns("uuid", "operator", "until", "issuedAt", "reason", "isForever")
+                .addCondition("uuid", uuid)
                 .build().execute(
                         (query) -> {
-                            long time = query.getExecuteTime();
-                            ServerManager.getManager().debug("查询耗时,"+time);
-
                             ResultSet result_set = query.getResultSet();
-                            if(!result_set.next()){
-                                return 0;
+                            try {
+                                if (!result_set.next()) {
+                                    result_set.close();
+                                    return 0;
+                                }
+                                String reason = result_set.getString("reason");
+                                String operator = result_set.getString("operator");
+                                int isForeverInt = result_set.getInt("isForever");
+                                boolean isForever = isForeverInt == 1;
+                                Timestamp until = result_set.getTimestamp("until");
+                                Timestamp issuedAt = result_set.getTimestamp("issuedAt");
+
+                                Timestamp now = new Timestamp(System.currentTimeMillis());
+
+                                if (until != null && until.compareTo(now) < 0) {
+                                    return 0;
+                                }
+
+                                result.set(new Result(uuid, operator, until, issuedAt, reason, isForever));
+
+                                return 1;
+                            } finally {
+                                try {
+                                    if (result_set != null) {
+                                        result_set.close();
+                                    }
+                                } catch (SQLException e) {
+                                    // 处理关闭结果集时的异常
+                                    serverManager.warn("[数据库]  查询异常",e.getMessage());
+                                    serverManager.debug(e);
+                                }
                             }
-                            String reason = result_set.getString("reason");
-                            String operator = result_set.getString("operator");
-                            boolean isForever = result_set.getBoolean("isForever");
-                            Timestamp until = result_set.getTimestamp("until");
-                            Timestamp issuedAt = result_set.getTimestamp("issuedAt");
-
-                            Timestamp now = new Timestamp(System.currentTimeMillis());
-
-                            if(until.compareTo(now) < 0){
-                                return 0;
-                            }
-
-
-                            result.set(new Result(uuid, operator, until, issuedAt, reason, isForever));
-
-                            return 1;
                         },
                         ((exception, sqlAction) -> {
-
+                            serverManager.warn("[数据库]  查询异常",exception.getMessage());
+                            serverManager.debug(exception);
                         })
                 );
         return result.get();
@@ -94,4 +108,43 @@ public class QueryOperates {
 //        return result.get();
 //    }
 
+    public static String UUIDs(SQLManager sqlManager, String name) {
+        AtomicReference<String> uuid = new AtomicReference<>();
+        sqlManager.createQuery()
+                .inTable(H2Manager.tablePrefix+"_USER_UUID")
+                .selectColumns("name", "uuid")
+                .addCondition("name", name)
+                .build().execute(
+                        (query) -> {
+                            ResultSet result_set = query.getResultSet();
+                            try {
+                                if (!result_set.next()) {
+                                    result_set.close();
+                                    uuid.set(null);
+                                    return 0;
+                                }
+
+                                String uuid_ = result_set.getString("uuid");
+                                uuid.set(uuid_);
+
+                                return 1;
+                            } finally {
+                                try {
+                                    if (result_set != null) {
+                                        result_set.close();
+                                    }
+                                } catch (SQLException e) {
+                                    // 处理关闭结果集时的异常
+                                    serverManager.warn("[数据库] 查询异常", e.getMessage());
+                                    serverManager.debug(e);
+                                }
+                            }
+                        },
+                        ((exception, sqlAction) -> {
+                            serverManager.warn("[数据库] 查询异常", exception.getMessage());
+                            serverManager.debug(exception);
+                        })
+                );
+        return uuid.get();
+    }
 }

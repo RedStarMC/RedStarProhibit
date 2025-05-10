@@ -2,12 +2,16 @@ package top.redstarmc.redstarprohibit.velocity;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
+import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import top.redstarmc.redstarprohibit.common.datebase.Result;
+import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
 import top.redstarmc.redstarprohibit.common.datebase.operates.QueryOperates;
 import top.redstarmc.redstarprohibit.common.manager.H2Manager;
+import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 
 import java.sql.Timestamp;
 
@@ -17,24 +21,39 @@ public class Listener {
 
     @Subscribe
     public void onPreLoginEvent(@NotNull PreLoginEvent event) {
-        PreLoginEvent.PreLoginComponentResult r;
-        String uuid = null;
-        if (event.getUniqueId() != null) {
-            uuid = event.getUniqueId().toString();
-        }
-        if(uuid == null){
+        String uuid = QueryOperates.UUIDs(H2Manager.getSqlManager(), event.getUsername());
+        ServerManager.getManager().debug("处理 PreLoginEvent ，UUID: " + uuid);
+
+        if (uuid == null) {
+            ServerManager.getManager().warn("触发错误！玩家UUID为空");
+            event.setResult(PreLoginEvent.PreLoginComponentResult.denied(text("错误！你传入的UUID为空！", NamedTextColor.RED)));
             return;
         }
 
-        Result result = QueryOperates.Bans(H2Manager.getSqlManager(),uuid);
-        if (result == null){
-            return;
-        }else {
-            Component component = getBanMessage(uuid, result.operator(), result.until()
-                    , result.issuedAt(), result.reason(), result.isForever());
-            r = PreLoginEvent.PreLoginComponentResult.denied(component);
+        Result result = QueryOperates.Bans(H2Manager.getSqlManager(), uuid);
+        if (result == null) {
+            ServerManager.getManager().debug("玩家 " + uuid + " 未被封禁，允许登录");
+        } else {
+            ServerManager.getManager().info("玩家 " + uuid + " 已被封禁，拒绝登录");
+            Component component = getBanMessage(uuid, result.operator(), result.until(),
+                    result.issuedAt(), result.reason(), result.isForever());
+            event.setResult(PreLoginEvent.PreLoginComponentResult.denied(component));
         }
-        event.setResult(r);
+    }
+
+    @Subscribe
+    public void onServerPostConnectEvent(@NotNull ServerPostConnectEvent event){
+        ServerManager.getManager().debug("处理 ServerPostConnectEvent ");
+        Player player_tmp = event.getPlayer();
+        String name = player_tmp.getUsername();
+        Player player = RedStarProhibitVC.getInstance().getServer().getPlayer(name).orElse(null);
+
+        if (player == null) return;
+        String temp = QueryOperates.UUIDs(H2Manager.getSqlManager(), player.getUsername());
+
+        if (temp == null) {
+            InsertOperates.User_Uuid(H2Manager.getSqlManager(), player.getUsername(), player.getUniqueId().toString());
+        }
     }
 
     public static Component getBanMessage(String uuid, String operator, Timestamp until,

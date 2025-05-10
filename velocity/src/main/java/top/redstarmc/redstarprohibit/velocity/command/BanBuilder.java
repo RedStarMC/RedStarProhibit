@@ -10,11 +10,12 @@ import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
 import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
+import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.Listener;
+import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.manager.VCConfigManager;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -62,20 +63,16 @@ public class BanBuilder implements VCCommandBuilder {
     }
 
     public void banPlayer(String player_name, String reason, CommandSource source){
-        Player player = null;
-        for(Player p : proxyServer.getAllPlayers()){
-            if(Objects.equals(p.getUsername(), player_name)){
-                player = p;
-            }
-        }
-        if(player == null){
-            source.sendMessage(text()
-                    .append(CommandIntroduce.getPluginPrefix())
-                    .append(text("指定的玩家不存在！", NamedTextColor.RED)));
+        ServerManager.getManager().debug("封禁指令执行");
+        Player player = RedStarProhibitVC.getInstance().getServer().getPlayer(player_name).orElse(null);
+
+        if (player == null){
+            source.sendMessage(text("指定的玩家不存在",NamedTextColor.RED));
             return;
         }
 
         String uuid = player.getUniqueId().toString();
+        ServerManager.getManager().debug("要封禁的uuid为", uuid);
         String operator;
 
         if(source instanceof Player player1){

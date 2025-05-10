@@ -26,5 +26,10 @@ public class InsertOperates {
                 .executeAsync();
     }
 
-
+    public static void User_Uuid(SQLManager sqlManager, String name, String uuid){
+        sqlManager.createInsert(H2Manager.tablePrefix+"_USER_UUID")
+                .setColumnNames("name", "uuid")
+                .setParams(name, uuid)
+                .executeAsync();
+    }
 }

@@ -38,6 +38,13 @@ public enum DateBaseTables implements SQLTable {
         table.addColumn("lifter","VARCHAR(36) NOT NULL");  //执行解除者的UUID
 
         table.setIndex("uuid", IndexType.INDEX);
+    }),
+    USER_UUID((table) -> {
+        table.addAutoIncrementColumn("id", NumberType.INT, true, true);
+        table.addColumn("name", "VARCHAR(17) NOT NULL");
+        table.addColumn("uuid", "VARCHAR(36) NOT NULL");
+
+        table.setIndex("name", IndexType.UNIQUE_KEY);
     });
 
     private final Consumer<TableCreateBuilder> builder;
@@ -80,6 +87,7 @@ public enum DateBaseTables implements SQLTable {
 
         BANS.create(manager, tablePrefix+"_BANS");
         BAN_HISTORY.create(manager, tablePrefix+"_BAN_HISTORY");
+        USER_UUID.create(manager, tablePrefix+"_USER_UUID");
 
     }
 }

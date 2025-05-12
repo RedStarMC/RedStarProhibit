@@ -8,6 +8,10 @@ import top.redstarmc.redstarprohibit.common.manager.H2Manager;
 import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.command.tool.QueueCommandManager;
 
+/**
+ * <h1>命令构建器接口</h1>
+ * 提供了一些常使用的变量
+ */
 public interface VCCommandBuilder {
 
     public final QueueCommandManager QUEUE_COMMAND_MANAGER = RedStarProhibitVC.getInstance().getQueueCommandManager();

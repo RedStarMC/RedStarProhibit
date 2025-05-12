@@ -50,7 +50,7 @@ public class BanBuilder implements VCCommandBuilder {
                             String reason = context.getArgument("reason", String.class);
 
                             if(VCConfigManager.isIsConfirm()){
-                                //TODO
+                                //TODO 命令确认
                                 banPlayer(player_name, reason, context.getSource());
                             }else {
                                 banPlayer(player_name, reason, context.getSource());

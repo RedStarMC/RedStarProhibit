@@ -19,7 +19,9 @@ public class Configs {
 
 
     public static final Map<String, Object> default_language = MapBuilder.of(String.class, Object.class)
-            .set("a","a")
+            .set("database.prefix", "[数据库]")
+            .set("database.load", "")
+            .set("", "")
             .toMap();
 
 

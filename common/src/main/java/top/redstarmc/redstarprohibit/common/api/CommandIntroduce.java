@@ -19,6 +19,8 @@ public class CommandIntroduce {
 
     private static final Component next = Component.text("\n");
 
+    private static final Component LINE = Component.text("------------------------",NamedTextColor.BLUE);
+
     @Contract(" -> new")
     public static @NotNull Component getRoot(){
         return text()
@@ -41,7 +43,10 @@ public class CommandIntroduce {
                 .append(PluginPrefix,
                         text("命 令 帮 助",NamedTextColor.AQUA),next)
                 .append(getKick())
+                .append(LINE)
                 .append(getBan())
+                .append(LINE)
+                .append(getBanHistory())
                 .build();
     }
 
@@ -61,6 +66,22 @@ public class CommandIntroduce {
 
     @Contract(" -> new")
     public static @NotNull Component getBan(){
+        return text()
+                .append(PluginPrefix,
+                        text("/rsp ban", NamedTextColor.GOLD),
+                        text("[玩家] [理由]",NamedTextColor.GREEN),next)
+                .append(PluginPrefix,
+                        text("以",NamedTextColor.AQUA),
+                        text("[理由]",NamedTextColor.GREEN),
+                        text("在 Velocity上 封禁",NamedTextColor.AQUA),
+                        text("[玩家]",NamedTextColor.GREEN),next)
+                .append(PluginPrefix,
+                        text("使用该指令将永久封禁该玩家",NamedTextColor.RED))
+                .build();
+    }
+
+    @Contract(" -> new")
+    public static @NotNull Component getBanHistory(){
         return text()
                 .append(text("a", NamedTextColor.RED))
                 .build();

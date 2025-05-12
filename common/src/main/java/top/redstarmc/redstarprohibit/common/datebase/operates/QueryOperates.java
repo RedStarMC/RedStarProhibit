@@ -69,7 +69,7 @@ public class QueryOperates {
                 );
         return result.get();
     }
-// TODO
+// TODO 数据库查询
 
 //    public static ResultSet Bans(SQLManager sqlManager, String operator,boolean isOperator) {
 //        AtomicReference<Result> result = new AtomicReference<>();

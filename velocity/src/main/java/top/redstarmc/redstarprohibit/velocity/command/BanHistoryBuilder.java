@@ -34,6 +34,7 @@ public class BanHistoryBuilder implements VCCommandBuilder {
 
                             //TODO 数据库查询历史记录
 
+
                             return Command.SINGLE_SUCCESS;
                         })
                 );

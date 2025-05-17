@@ -87,6 +87,13 @@ public class CommandIntroduce {
                 .build();
     }
 
+    @Contract(" -> new")
+    public static @NotNull Component getUnBan(){
+        return text()
+                .append(text("a", NamedTextColor.RED))
+                .build();
+    }
+
     public static @NotNull Component getPluginPrefix(){
         return PluginPrefix;
     }

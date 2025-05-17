@@ -19,10 +19,10 @@ public class InsertOperates {
     }
 
     public static void BanHistory(SQLManager sqlManager, String uuid, String operator, Timestamp until,
-                                        Timestamp issuedAt, String reason, String type , boolean isForever) {
+                                  String reason, String liftAs, String lifter) {
         sqlManager.createInsert(H2Manager.tablePrefix+"_BAN_HISTORY")
-                .setColumnNames("uuid", "operator", "until","issuedAt","reason","type","isForever")
-                .setParams(uuid, operator, until, issuedAt, reason, type, isForever)
+                .setColumnNames("uuid", "operator", "until","reason","liftAs","lifter")
+                .setParams(uuid, operator, until, reason, liftAs, lifter)
                 .executeAsync();
     }
 

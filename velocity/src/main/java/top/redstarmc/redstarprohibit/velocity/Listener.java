@@ -46,6 +46,8 @@ public class Listener {
         String name = player_tmp.getUsername();
         Player player = RedStarProhibitVC.getInstance().getServer().getPlayer(name).orElse(null);
 
+        //TODO 是否需要每次更新uuid
+
         if (player == null) return;
         String temp = QueryOperates.UUIDs(H2Manager.getSqlManager(), player.getUsername());
 

@@ -33,8 +33,8 @@ public enum DateBaseTables implements SQLTable {
         table.addColumn("operator","VARCHAR(36) NOT NULL");  //执行者的UUID
         table.addColumn("until","DATETIME");  //持续的时间
         table.addColumn("reason","TEXT NOT NULL");  //理由
-        table.addColumn("type","ENUM('ban','warn') NOT NULL"); //类型
-        table.addColumn("liftAs","ENUM('sys','console','user') NOT NULL"); //解封类型
+//        table.addColumn("type","ENUM('ban','warn') NOT NULL"); //类型
+        table.addColumn("liftAs","ENUM('sys','user','time') NOT NULL"); //解封类型
         table.addColumn("lifter","VARCHAR(36) NOT NULL");  //执行解除者的UUID
 
         table.setIndex("uuid", IndexType.INDEX);

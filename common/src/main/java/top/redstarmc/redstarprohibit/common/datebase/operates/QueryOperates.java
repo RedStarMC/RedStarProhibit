@@ -42,7 +42,7 @@ public class QueryOperates {
                                 Timestamp now = new Timestamp(System.currentTimeMillis());
 
                                 if (until != null && until.compareTo(now) < 0) {
-                                    // TODO 移动到历史记录里
+                                    InsertOperates.BanHistory(sqlManager, uuid, operator, until, reason, "time", "unknown");
                                     DeleteOperates.Bans(sqlManager, uuid);
                                     return 0;
                                 }

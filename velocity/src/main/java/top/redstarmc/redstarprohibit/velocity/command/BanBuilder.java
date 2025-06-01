@@ -9,6 +9,7 @@ import com.velocitypowered.api.command.VelocityBrigadierMessage;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
+import top.redstarmc.redstarprohibit.common.api.CommandMessage;
 import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
 import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.Listener;
@@ -88,6 +89,7 @@ public class BanBuilder implements VCCommandBuilder {
         
         KickBuilder.kickPlayer(source, Listener.getBanMessage(uuid,operator,until,issuedAt,reason,true), player.getUniqueId());
 
+        source.sendMessage(CommandMessage.Ban_end(player_name));
     }
 
 }

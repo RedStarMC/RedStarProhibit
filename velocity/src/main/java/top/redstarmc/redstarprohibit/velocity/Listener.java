@@ -7,7 +7,7 @@ import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
-import top.redstarmc.redstarprohibit.common.datebase.Result;
+import top.redstarmc.redstarprohibit.common.datebase.BanResult;
 import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
 import top.redstarmc.redstarprohibit.common.datebase.operates.QueryOperates;
 import top.redstarmc.redstarprohibit.common.manager.H2Manager;
@@ -28,13 +28,13 @@ public class Listener {
             return;
         }
 
-        Result result = QueryOperates.Bans(H2Manager.getSqlManager(), uuid);
-        if (result == null) {
+        BanResult banResult = QueryOperates.Bans(H2Manager.getSqlManager(), uuid);
+        if (banResult == null) {
             ServerManager.getManager().debug("玩家 " + uuid + " 未被封禁，允许登录");
         } else {
-            ServerManager.getManager().info("玩家 " + uuid + " 已被封禁，拒绝登录");
-            Component component = getBanMessage(uuid, result.operator(), result.until(),
-                    result.issuedAt(), result.reason(), result.isForever());
+            ServerManager.getManager().debug("玩家 " + uuid + " 已被封禁，拒绝登录");
+            Component component = getBanMessage(uuid, banResult.operator(), banResult.until(),
+                    banResult.issuedAt(), banResult.reason(), banResult.isForever());
             event.setResult(PreLoginEvent.PreLoginComponentResult.denied(component));
         }
     }

@@ -1,13 +1,15 @@
 package top.redstarmc.redstarprohibit.common.datebase.operates;
 
 import cc.carm.lib.easysql.api.SQLManager;
-import top.redstarmc.redstarprohibit.common.datebase.Result;
+import top.redstarmc.redstarprohibit.common.datebase.BanResult;
+import top.redstarmc.redstarprohibit.common.datebase.HistoryResult;
 import top.redstarmc.redstarprohibit.common.manager.H2Manager;
 import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -18,8 +20,8 @@ public class QueryOperates {
 
     private static final ServerManager serverManager = ServerManager.getManager();
 
-    public static Result Bans(SQLManager sqlManager, String uuid) {
-        AtomicReference<Result> result = new AtomicReference<>();
+    public static BanResult Bans(SQLManager sqlManager, String uuid) {
+        AtomicReference<BanResult> result = new AtomicReference<>();
         sqlManager.createQuery()
                 .inTable(H2Manager.tablePrefix+"_BANS")
                 .selectColumns("uuid", "operator", "until", "issuedAt", "reason", "isForever")
@@ -47,7 +49,7 @@ public class QueryOperates {
                                     return 0;
                                 }
 
-                                result.set(new Result(uuid, operator, until, issuedAt, reason, isForever));
+                                result.set(new BanResult(uuid, operator, until, issuedAt, reason, isForever));
 
                                 return 1;
                             } finally {
@@ -69,7 +71,41 @@ public class QueryOperates {
                 );
         return result.get();
     }
-// TODO 数据库查询
+
+    public static ArrayList<HistoryResult> BanHistory(SQLManager sqlManager, String uuid) {
+        AtomicReference<ArrayList<HistoryResult>> result = new AtomicReference<>();
+        sqlManager.createQuery()
+                .inTable(H2Manager.tablePrefix+"_BAN_HISTORY")
+                .selectColumns("id","uuid", "operator", "until","reason","liftAs","lifter")
+                .addCondition("uuid", uuid)
+                .build().execute((query) -> {
+                    ResultSet resultSet = query.getResultSet();
+                    ArrayList<HistoryResult> historyResultArrayList = new ArrayList<>();
+
+                    while (resultSet.next()){
+                        HistoryResult historyResult = new HistoryResult(
+                                resultSet.getInt("id"),
+                                resultSet.getString("uuid"),
+                                resultSet.getString("operator"),
+                                resultSet.getTimestamp("until"),
+                                resultSet.getString("reason"),
+                                resultSet.getString("liftAs"),
+                                resultSet.getString("lifter")
+                        );
+                        historyResultArrayList.add(historyResult);
+                    }
+
+                    result.set(historyResultArrayList);
+                    return 1;
+                },
+                ((exception, sqlAction) -> {
+                    serverManager.warn("[数据库]  查询异常",exception.getMessage());
+                    serverManager.debug(exception);
+                }));
+
+        return result.get();
+    }
+
 
 //    public static ResultSet Bans(SQLManager sqlManager, String operator,boolean isOperator) {
 //        AtomicReference<Result> result = new AtomicReference<>();

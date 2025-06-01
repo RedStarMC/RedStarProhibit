@@ -19,7 +19,7 @@ public class CommandIntroduce {
 
     private static final Component next = Component.text("\n");
 
-    private static final Component LINE = Component.text("------------------------",NamedTextColor.BLUE);
+    private static final Component LINE = Component.text("------------------------\n",NamedTextColor.BLUE);
 
     @Contract(" -> new")
     public static @NotNull Component getRoot(){

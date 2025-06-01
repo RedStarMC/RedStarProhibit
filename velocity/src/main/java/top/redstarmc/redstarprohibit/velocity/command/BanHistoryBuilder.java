@@ -7,6 +7,11 @@ import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.VelocityBrigadierMessage;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
+import top.redstarmc.redstarprohibit.common.api.CommandMessage;
+import top.redstarmc.redstarprohibit.common.datebase.HistoryResult;
+import top.redstarmc.redstarprohibit.common.datebase.operates.QueryOperates;
+
+import java.util.ArrayList;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -31,8 +36,16 @@ public class BanHistoryBuilder implements VCCommandBuilder {
                         })
                         .executes(context -> {
                             String player_name = context.getArgument("player_name", String.class);
+                            String uuid = QueryOperates.UUIDs(sqlManager, player_name);
 
-                            //TODO 数据库查询历史记录
+                            ArrayList<HistoryResult> historyResults = QueryOperates.BanHistory(sqlManager, uuid);
+
+                            if (historyResults == null){
+                                context.getSource().sendMessage(CommandMessage.historyNull(player_name));
+                                return Command.SINGLE_SUCCESS;
+                            }
+
+                            // 展示列表内容
 
 
                             return Command.SINGLE_SUCCESS;

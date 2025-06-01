@@ -9,7 +9,8 @@ import com.velocitypowered.api.command.VelocityBrigadierMessage;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
-import top.redstarmc.redstarprohibit.common.datebase.Result;
+import top.redstarmc.redstarprohibit.common.api.CommandMessage;
+import top.redstarmc.redstarprohibit.common.datebase.BanResult;
 import top.redstarmc.redstarprohibit.common.datebase.operates.DeleteOperates;
 import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
 import top.redstarmc.redstarprohibit.common.datebase.operates.QueryOperates;
@@ -53,27 +54,36 @@ public class UnBanBuilder implements VCCommandBuilder {
                             String uuid = QueryOperates.UUIDs(H2Manager.getSqlManager(), player_name);
 
                             // 查询是否有封禁记录
-                            Result result = QueryOperates.Bans(H2Manager.getSqlManager(), uuid);
-                            if (result == null) {
+                            BanResult banResult = QueryOperates.Bans(H2Manager.getSqlManager(), uuid);
+                            if (banResult == null) {
                                 context.getSource().sendMessage((text("指定的玩家不存在被封禁的记录", NamedTextColor.RED)));
                                 return Command.SINGLE_SUCCESS;
                             }
 
                             if(VCConfigManager.isIsConfirm()){
                                 //TODO 命令确认
-                                unBanPlayer(uuid, lifter, result);
+                                unBanPlayer(uuid, lifter, banResult);
+
+                                context.getSource().sendMessage(CommandMessage.unBan_end(player_name));
+                                ServerManager.getManager().info("玩家", context.getSource().toString(), "封禁了", player_name);
+
+                                return Command.SINGLE_SUCCESS;
                             }else {
-                                unBanPlayer(uuid, lifter, result);
+                                unBanPlayer(uuid, lifter, banResult);
+
+                                context.getSource().sendMessage(CommandMessage.unBan_end(player_name));
+                                ServerManager.getManager().info("玩家", context.getSource().toString(), "封禁了", player_name);
+
+                                return Command.SINGLE_SUCCESS;
                             }
 
-                            return Command.SINGLE_SUCCESS;
                         })
                 );
     }
 
-    private void unBanPlayer(String player_uuid, String lifter, Result result){
+    private void unBanPlayer(String player_uuid, String lifter, BanResult banResult){
         // 添加历史记录
-        InsertOperates.BanHistory(sqlManager, player_uuid, result.operator(), result.until(), result.reason(), "user", lifter);
+        InsertOperates.BanHistory(sqlManager, player_uuid, banResult.operator(), banResult.until(), banResult.reason(), "user", lifter);
         // 删除封禁记录
         DeleteOperates.Bans(sqlManager, player_uuid);
     }

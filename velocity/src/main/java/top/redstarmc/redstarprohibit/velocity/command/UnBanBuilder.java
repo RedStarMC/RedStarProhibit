@@ -65,14 +65,14 @@ public class UnBanBuilder implements VCCommandBuilder {
                                 unBanPlayer(uuid, lifter, banResult);
 
                                 context.getSource().sendMessage(CommandMessage.unBan_end(player_name));
-                                ServerManager.getManager().info("玩家", context.getSource().toString(), "封禁了", player_name);
+                                ServerManager.getManager().info("玩家", lifter, "解封了", player_name);
 
                                 return Command.SINGLE_SUCCESS;
                             }else {
                                 unBanPlayer(uuid, lifter, banResult);
 
                                 context.getSource().sendMessage(CommandMessage.unBan_end(player_name));
-                                ServerManager.getManager().info("玩家", context.getSource().toString(), "封禁了", player_name);
+                                ServerManager.getManager().info("玩家", lifter, "解封了", player_name);
 
                                 return Command.SINGLE_SUCCESS;
                             }

@@ -1,8 +1,12 @@
 package top.redstarmc.redstarprohibit.common.api;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
+import top.redstarmc.redstarprohibit.common.datebase.HistoryResult;
+
+import java.util.ArrayList;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -42,5 +46,26 @@ public class CommandMessage {
                         text(player_name, NamedTextColor.GOLD),
                         text("没有封禁记录。", NamedTextColor.RED))
                 .build();
+    }
+
+    public static @NotNull Component histroy(ArrayList<HistoryResult> historyResults){
+        TextComponent.@NotNull Builder builder = text();
+
+        builder.append(text("查询 结果"));
+
+        for( HistoryResult result : historyResults){
+            builder.append(next,PluginPrefix,
+                    text(result.id(),NamedTextColor.GOLD),
+                    text(" 被封禁时间 ",NamedTextColor.GREEN),
+                    text(result.until().toString(), NamedTextColor.AQUA),
+                    text(" 封禁者 ",NamedTextColor.GREEN),
+                    text(result.operator(), NamedTextColor.AQUA),
+                    text(" 解封原因 ", NamedTextColor.GREEN),
+                    text(result.liftAs(), NamedTextColor.AQUA),
+                    text(" 解封者 ", NamedTextColor.GREEN),
+                    text(result.liftAs(), NamedTextColor.AQUA));
+        }
+
+        return builder.build();
     }
 }

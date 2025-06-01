@@ -46,7 +46,7 @@ public class BanHistoryBuilder implements VCCommandBuilder {
                             }
 
                             // 展示列表内容
-
+                            context.getSource().sendMessage(CommandMessage.histroy(historyResults));
 
                             return Command.SINGLE_SUCCESS;
                         })

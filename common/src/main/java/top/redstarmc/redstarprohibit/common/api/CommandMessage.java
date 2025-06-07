@@ -63,7 +63,7 @@ public class CommandMessage {
                     text(" 解封原因 ", NamedTextColor.GREEN),
                     text(result.liftAs(), NamedTextColor.AQUA),
                     text(" 解封者 ", NamedTextColor.GREEN),
-                    text(result.liftAs(), NamedTextColor.AQUA));
+                    text(result.lifter(), NamedTextColor.AQUA));
         }
 
         return builder.build();

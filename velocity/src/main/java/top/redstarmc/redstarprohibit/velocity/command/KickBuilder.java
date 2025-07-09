@@ -47,7 +47,7 @@ public class KickBuilder implements VCCommandBuilder {
                                     String player_name = context.getArgument("player_name", String.class);
                                     String reason = context.getArgument("reason", String.class);
 
-                                    kickPlayer(context.getSource(),text("测试踢出消息:"+reason),player_name);
+                                    kickPlayer(context.getSource(),text("你被从服务器请出。原因：:"+reason),player_name);
 
                                     return Command.SINGLE_SUCCESS;
                                 })

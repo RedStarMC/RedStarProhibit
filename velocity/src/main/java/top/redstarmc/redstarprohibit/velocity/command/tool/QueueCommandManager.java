@@ -29,7 +29,7 @@ public class QueueCommandManager {
         command.source().sendMessage(text()
                 .append(CommandIntroduce.getPluginPrefix())
                 .append(text("请在30s内输入",NamedTextColor.AQUA))
-                .append(text("/RedStarProhibit confirm",NamedTextColor.GOLD))
+                .append(text("/rsp confirm",NamedTextColor.GOLD))
                 .append(text("来确认你的操作",NamedTextColor.AQUA)));
         VCServerManager.getManager().runTaskLater(expireRunnable(command),30L);
     }

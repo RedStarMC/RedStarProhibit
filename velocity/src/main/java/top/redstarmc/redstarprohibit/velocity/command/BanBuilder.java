@@ -11,9 +11,10 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import top.redstarmc.redstarprohibit.common.api.CommandIntroduce;
 import top.redstarmc.redstarprohibit.common.api.CommandMessage;
 import top.redstarmc.redstarprohibit.common.datebase.operates.InsertOperates;
+import top.redstarmc.redstarprohibit.common.datebase.operates.QueryOperates;
+import top.redstarmc.redstarprohibit.common.manager.H2Manager;
 import top.redstarmc.redstarprohibit.common.manager.ServerManager;
 import top.redstarmc.redstarprohibit.velocity.Listener;
-import top.redstarmc.redstarprohibit.velocity.RedStarProhibitVC;
 import top.redstarmc.redstarprohibit.velocity.manager.VCConfigManager;
 
 import java.sql.Timestamp;
@@ -65,14 +66,13 @@ public class BanBuilder implements VCCommandBuilder {
 
     public void banPlayer(String player_name, String reason, CommandSource source){
         ServerManager.getManager().debug("封禁指令执行");
-        Player player = RedStarProhibitVC.getInstance().getServer().getPlayer(player_name).orElse(null);
+        String uuid = QueryOperates.UUIDs(H2Manager.getSqlManager(), player_name);
 
-        if (player == null){
+        if (uuid == null){
             source.sendMessage(text("指定的玩家不存在",NamedTextColor.RED));
             return;
         }
 
-        String uuid = player.getUniqueId().toString();
         ServerManager.getManager().debug("要封禁的uuid为", uuid);
         String operator;
 
@@ -87,7 +87,7 @@ public class BanBuilder implements VCCommandBuilder {
 
         InsertOperates.Bans(sqlManager, uuid, operator, until, issuedAt, reason, true);
         
-        KickBuilder.kickPlayer(source, Listener.getBanMessage(uuid,operator,until,issuedAt,reason,true), player.getUniqueId());
+        KickBuilder.kickPlayer(source, Listener.getBanMessage(uuid,operator,until,issuedAt,reason,true), uuid);
 
         source.sendMessage(CommandMessage.Ban_end(player_name));
     }

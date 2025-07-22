@@ -90,6 +90,13 @@ public class BanBuilder implements VCCommandBuilder {
         KickBuilder.kickPlayer(source, Listener.getBanMessage(uuid,operator,until,issuedAt,reason,true), uuid);
 
         source.sendMessage(CommandMessage.Ban_end(player_name));
+
+        // 如果开启了广播，则广播封禁消息
+        if (VCConfigManager.isIsBroadcast()){
+            proxyServer.sendMessage(CommandMessage.Ban_end(player_name));
+        }
+
     }
+
 
 }
